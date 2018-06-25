@@ -6,24 +6,16 @@
   </head>
   <body>
     <script>
-// Now it is your turn.  
 
-/* Here is what you start with:
- * You have a function. When you call it with a message argument,
+ /* You have a function. When you call it with a message argument,
  * it will 'render', or draw, that message onto the page using a template.
- *
  * The template part of the function is html that is the same for all messages.
- * Let's break this function down:
  */
 var renderSomethingOnThePage = function(message) {
   /* We will use jQuery to append a message to the page,
    * but we dont want all of this HTML to be in the `el.append` function call.
-   *
    * Instead, we break it out first into a variable called `$element`.
    * Now, we can call the `el.append` method with the `$element` variable.
-   *
-   * This also allows us to space out the html as we're used to,
-   * with indents to make it easier to read.
    */
   var html = [
     '<div>',
@@ -34,47 +26,26 @@ var renderSomethingOnThePage = function(message) {
     '<br/>'
   ].join('');
 
-  /* Question:
-   * How would you modify this template to add style to the look of the page?
-   *
-   * _Look below for one possible solution._
-   */
+  /* Question:  * How would you modify this template to add style to the look of the page?
 
-  /* Here is the jQuery call to append this html string to the page's body.
-   * Each time this function is called, the whole template defined above
-   * is 'rendered', or drawn, with the message you pass to
-   * the function argument.
-   */
+ 
+  /* Here is the jQuery call to append this html string to the page's body.*/
   $('body').append(html);
 };
 
-// Let's try it out:
 renderSomethingOnThePage(
   'This is an example of how to use our rendering method.');
 
-/* Here are a few more examples. Every call to our rendering function (above)
- * will draw something to the page using the template defined in that function:
- */
-
-// renderSomethingOnThePage('Each additional message you give this function...');
-// renderSomethingOnThePage('...will draw a new message on the page!');
-
-/* Let's revisit what we have learned from the last exercise.
- * We are working with a different application this time - we are going to be
+/*
+ we are going to be
  * working with messages received from some API
- * (like phone messages received from Twilio).
- *
+ 
  * Again, we extend a plain Backbone.Model to add extra stuff,
  * specific to our model.  The plain Backbone.Model comes with all the methods
  * that we will want to use later, so we just add the parts of the objects
- * that we will want to interact with.  This one is a little different than
- * the last time we extended the Backbone.Model: Last time, we didn't extend
- * the plain Backbone.Model at all - we left it blank.
+ * that we will want to interact with.  
  *
  * This time, we will see what you might want to extend the model with.
- *
- * _Confused about what `extend` means or does? This is all about the prototype
- * and inhertance. If you're stuck, halp yourself a teacher to explain._
  */
 var Message = Backbone.Model.extend({  
   /* Our messages should have two methods that someone could call.
@@ -89,9 +60,6 @@ var Message = Backbone.Model.extend({
    *
    * In this case, anytime you use `new Message`, the object/model created
    * will have this `initialize` function run when the model is created.
-   *
-   * Before you continue, you should look up `initialize` in
-   * [the documentation](http://backbonejs.org/#Model-constructor).
    */
   initialize: function(){
     /* This code will be run when we instantiate a new message.
@@ -101,7 +69,9 @@ var Message = Backbone.Model.extend({
      * Putting it into the initialize function let's us be sure that
      * all models that are created will have event listeners on them.
      */
-    this.on(YOUR CODE HERE);
+    this.on('change', function(message) {
+      this.renderSomethingOnThePage(message);
+    });
     /* It is your turn to write the event handler.
      *
      * Make an event listener that will listen for a `change` in this model's
